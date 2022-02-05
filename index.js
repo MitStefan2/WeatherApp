@@ -1,19 +1,23 @@
 let weather = {
   apiKey: "ed18b404e3ae18cc770d3f9a6e474e1c",
 
-  fetchWeather: function () {
+  fetchWeather: function (city) {
     fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=" +
-        city +
-        "&units=metric&appid=" +
-        this.apiKey
+      city +
+      "&units=metric&appid=" +
+      this.apiKey
     )
       .then((response) => response.json())
       .then((data) => this.displayWeather(data));
   },
 
-  displayWeather: function(data) {
+  displayWeather: function (data) {
     const { name } = data;
+    if (!data.weather) {
+      window.alert('Invalid city name!');
+      return
+    }
     const { icon, description } = data.weather[0];
     const { temp, humidity } = data.main;
     const { speed } = data.wind;
